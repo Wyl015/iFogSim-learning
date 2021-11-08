@@ -136,7 +136,6 @@ public class ClusteringController extends SimEntity {
             sendNow(dev.getId(), FogEvents.RESOURCE_MGMT);
 
 
-
     }
 
     @Override
@@ -235,10 +234,8 @@ public class ClusteringController extends SimEntity {
                     upDelay = getUpDelay(prevParent.getId(), commonAncestor, getApplications().get(applicationName).getModuleByName(moduleName));
                     downDelay = getDownDelay(newParent.getId(), commonAncestor, getApplications().get(applicationName).getModuleByName(moduleName));
 
-                    if(getAppModulePlacementPolicy().get(applicationName).getClusteringFeature())
-                    {
-                        if(prevParent.getClusterMembers().contains(newParent.getId()))
-                        {
+                    if (getAppModulePlacementPolicy().get(applicationName).getClusteringFeature()) {
+                        if (prevParent.getClusterMembers().contains(newParent.getId())) {
                             upDelay = prevParent.getClusterMembersToLatencyMap().get(newParent.getId());
                             downDelay = 0;
                         }

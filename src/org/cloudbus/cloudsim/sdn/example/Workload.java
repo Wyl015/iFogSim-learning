@@ -12,14 +12,14 @@ import org.cloudbus.cloudsim.sdn.Request;
 /**
  * Class to keep workload information parsed from files.
  * This class is used in WorkloadParser
- * 
+ *
  * @author Jungmin Son
  * @since CloudSimSDN 1.0
  */
 public class Workload {
-	public int appId;
-	public double time;
-	public int submitVmId;
-	public int submitPktSize;
-	public Request request;	
+    public int appId;
+    public double time;
+    public int submitVmId;
+    public int submitPktSize;
+    public Request request;
 }

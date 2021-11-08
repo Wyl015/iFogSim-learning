@@ -20,7 +20,7 @@ public class RRLoadBalancer implements LoadBalancer {
             loadBalancerPosition.put(microservice, pos);
             return serviceDiscoveryInfo.getServiceDiscoveryInfo().get(microservice).get(pos);
         } else {
-            if(serviceDiscoveryInfo.getServiceDiscoveryInfo().containsKey(microservice)) {
+            if (serviceDiscoveryInfo.getServiceDiscoveryInfo().containsKey(microservice)) {
                 loadBalancerPosition.put(microservice, 0);
                 if (serviceDiscoveryInfo.getServiceDiscoveryInfo().get(microservice) == null)
                     System.out.println("null");

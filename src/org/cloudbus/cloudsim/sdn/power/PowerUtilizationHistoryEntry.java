@@ -9,13 +9,17 @@
 package org.cloudbus.cloudsim.sdn.power;
 
 /**
- *  To log utilization history, this class holds power utilization information
- * 
+ * To log utilization history, this class holds power utilization information
+ *
  * @author Jungmin Son
  * @since CloudSimSDN 1.0
  */
 public class PowerUtilizationHistoryEntry {
-	public double startTime;
-	public double usedMips;
-	public PowerUtilizationHistoryEntry(double t, double m) { startTime=t; usedMips=m;}
+    public double startTime;
+    public double usedMips;
+
+    public PowerUtilizationHistoryEntry(double t, double m) {
+        startTime = t;
+        usedMips = m;
+    }
 }

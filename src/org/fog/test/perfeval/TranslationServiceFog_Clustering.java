@@ -105,8 +105,8 @@ public class TranslationServiceFog_Clustering {
                 controller = new ClusteringController("master-controller", fogDevices, sensors,
                         actuators, locator, clusteringLevels);
             }
-            Boolean clusteringFeature = true; 
-            controller.submitApplication(application, 0, (new ModulePlacementMobileEdgewardsCluster(fogDevices, sensors, actuators, application, moduleMapping,clusteringFeature)));
+            Boolean clusteringFeature = true;
+            controller.submitApplication(application, 0, (new ModulePlacementMobileEdgewardsCluster(fogDevices, sensors, actuators, application, moduleMapping, clusteringFeature)));
 
             TimeKeeper.getInstance().setSimulationStartTime(Calendar.getInstance().getTimeInMillis());
 

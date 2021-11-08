@@ -661,13 +661,13 @@ public class MicroserviceFogDevice extends FogDevice {
     }
 
     private void updateCLusterConsInRoutingTable() {
-        for(int deviceId:clusterMembers){
-            routingTable.put(deviceId,deviceId);
+        for (int deviceId : clusterMembers) {
+            routingTable.put(deviceId, deviceId);
         }
     }
 
     public void removeMonitoredDevice(FogDevice fogDevice) {
-       controllerComponent.removeMonitoredDevice(fogDevice);
+        controllerComponent.removeMonitoredDevice(fogDevice);
     }
 
     public void addMonitoredDevice(FogDevice fogDevice) {

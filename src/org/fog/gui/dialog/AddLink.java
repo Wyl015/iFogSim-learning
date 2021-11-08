@@ -33,190 +33,192 @@ import org.fog.gui.core.Link;
 import org.fog.gui.core.Node;
 import org.fog.gui.core.NodeCellRenderer;
 
-/** A dialog to add a new edge */
+/**
+ * A dialog to add a new edge
+ */
 public class AddLink extends JDialog {
-	private static final long serialVersionUID = 4794808969864918000L;
-	
-	private final Graph graph;
-	private JComboBox sourceNode;
-	private JComboBox targetNode;
-	private JTextField tfLatency;
+    private static final long serialVersionUID = 4794808969864918000L;
+
+    private final Graph graph;
+    private JComboBox sourceNode;
+    private JComboBox targetNode;
+    private JTextField tfLatency;
 
 
-	public AddLink(final Graph graph, final JFrame frame) {
+    public AddLink(final Graph graph, final JFrame frame) {
 
-		this.graph = graph;
+        this.graph = graph;
 
-		setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
-		add(createInputPanel(), BorderLayout.CENTER);
-		add(createButtonPanel(), BorderLayout.PAGE_END);
-		// show dialog
-		setTitle("Add Link");
-		setModal(true);
-		setPreferredSize(new Dimension(400, 200));
-		setResizable(false);
-		pack();
-		setLocationRelativeTo(frame); // must be called between pack and setVisible to work properly
-		setVisible(true);
-	}
+        add(createInputPanel(), BorderLayout.CENTER);
+        add(createButtonPanel(), BorderLayout.PAGE_END);
+        // show dialog
+        setTitle("Add Link");
+        setModal(true);
+        setPreferredSize(new Dimension(400, 200));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(frame); // must be called between pack and setVisible to work properly
+        setVisible(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	private JPanel createInputPanel() {
+    @SuppressWarnings("unchecked")
+    private JPanel createInputPanel() {
 
-		Component rigid = Box.createRigidArea(new Dimension(10, 0));
+        Component rigid = Box.createRigidArea(new Dimension(10, 0));
 
-		JPanel inputPanelWrapper = new JPanel();
-		inputPanelWrapper.setLayout(new BoxLayout(inputPanelWrapper, BoxLayout.PAGE_AXIS));
+        JPanel inputPanelWrapper = new JPanel();
+        inputPanelWrapper.setLayout(new BoxLayout(inputPanelWrapper, BoxLayout.PAGE_AXIS));
 
-		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
 
-		JPanel textAreaPanel = new JPanel();
-		textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.LINE_AXIS));
+        JPanel textAreaPanel = new JPanel();
+        textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.LINE_AXIS));
 
-		ComboBoxModel sourceNodeModel = new DefaultComboBoxModel(graph.getAdjacencyList().keySet().toArray());
+        ComboBoxModel sourceNodeModel = new DefaultComboBoxModel(graph.getAdjacencyList().keySet().toArray());
 
-		sourceNodeModel.setSelectedItem(null);
+        sourceNodeModel.setSelectedItem(null);
 
-		sourceNode = new JComboBox(sourceNodeModel);
-		targetNode = new JComboBox();
-		sourceNode.setMaximumSize(sourceNode.getPreferredSize());
-		sourceNode.setMinimumSize(new Dimension(150, sourceNode.getPreferredSize().height));
-		sourceNode.setPreferredSize(new Dimension(150, sourceNode.getPreferredSize().height));
-		targetNode.setMaximumSize(targetNode.getPreferredSize());
-		targetNode.setMinimumSize(new Dimension(150, targetNode.getPreferredSize().height));
-		targetNode.setPreferredSize(new Dimension(150, targetNode.getPreferredSize().height));
+        sourceNode = new JComboBox(sourceNodeModel);
+        targetNode = new JComboBox();
+        sourceNode.setMaximumSize(sourceNode.getPreferredSize());
+        sourceNode.setMinimumSize(new Dimension(150, sourceNode.getPreferredSize().height));
+        sourceNode.setPreferredSize(new Dimension(150, sourceNode.getPreferredSize().height));
+        targetNode.setMaximumSize(targetNode.getPreferredSize());
+        targetNode.setMinimumSize(new Dimension(150, targetNode.getPreferredSize().height));
+        targetNode.setPreferredSize(new Dimension(150, targetNode.getPreferredSize().height));
 
-		NodeCellRenderer renderer = new NodeCellRenderer();
+        NodeCellRenderer renderer = new NodeCellRenderer();
 
-		sourceNode.setRenderer(renderer);
-		targetNode.setRenderer(renderer);
+        sourceNode.setRenderer(renderer);
+        targetNode.setRenderer(renderer);
 
-		sourceNode.addItemListener(new ItemListener() {
+        sourceNode.addItemListener(new ItemListener() {
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// only display nodes which do not have already an edge
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // only display nodes which do not have already an edge
 
-				targetNode.removeAllItems();
-				Node selectedNode = (Node) sourceNode.getSelectedItem();
+                targetNode.removeAllItems();
+                Node selectedNode = (Node) sourceNode.getSelectedItem();
 
-				if (selectedNode != null) {
+                if (selectedNode != null) {
 
-					List<Node> nodesToDisplay = new ArrayList<Node>();
-					Set<Node> allNodes = graph.getAdjacencyList().keySet();
+                    List<Node> nodesToDisplay = new ArrayList<Node>();
+                    Set<Node> allNodes = graph.getAdjacencyList().keySet();
 
-					// get edged for selected node and throw out all target nodes where already an edge exists
-					List<Edge> edgesForSelectedNode = graph.getAdjacencyList().get(selectedNode);
-					Set<Node> nodesInEdges = new HashSet<Node>();
-					for (Edge edge : edgesForSelectedNode) {
-						nodesInEdges.add(edge.getNode());
-					}
-					if(!(selectedNode.getType().equals("SENSOR")||selectedNode.getType().equals("ACTUATOR")) || edgesForSelectedNode.size()==0){
-						for (Node node : allNodes) {
-							if((selectedNode.getType().equals("SENSOR")||selectedNode.getType().equals("ACTUATOR")) && !node.getType().equals("FOG_DEVICE"))
-								continue;
-							if (!node.equals(selectedNode) && !nodesInEdges.contains(node)) {
-								nodesToDisplay.add(node);
-							}
-						}						
-					}
-					
+                    // get edged for selected node and throw out all target nodes where already an edge exists
+                    List<Edge> edgesForSelectedNode = graph.getAdjacencyList().get(selectedNode);
+                    Set<Node> nodesInEdges = new HashSet<Node>();
+                    for (Edge edge : edgesForSelectedNode) {
+                        nodesInEdges.add(edge.getNode());
+                    }
+                    if (!(selectedNode.getType().equals("SENSOR") || selectedNode.getType().equals("ACTUATOR")) || edgesForSelectedNode.size() == 0) {
+                        for (Node node : allNodes) {
+                            if ((selectedNode.getType().equals("SENSOR") || selectedNode.getType().equals("ACTUATOR")) && !node.getType().equals("FOG_DEVICE"))
+                                continue;
+                            if (!node.equals(selectedNode) && !nodesInEdges.contains(node)) {
+                                nodesToDisplay.add(node);
+                            }
+                        }
+                    }
 
-					ComboBoxModel targetNodeModel = new DefaultComboBoxModel(nodesToDisplay.toArray());
-					targetNode.setModel(targetNodeModel);
-				}
-			}
-		});
 
-		inputPanel.add(sourceNode);
-		inputPanel.add(new Label("---->"));
-		inputPanel.add(targetNode);
-		inputPanel.add(Box.createHorizontalGlue());
-		inputPanelWrapper.add(inputPanel);
+                    ComboBoxModel targetNodeModel = new DefaultComboBoxModel(nodesToDisplay.toArray());
+                    targetNode.setModel(targetNodeModel);
+                }
+            }
+        });
 
-		textAreaPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		textAreaPanel.add(new JLabel("Latency: "));
-		tfLatency = new JTextField();
-		tfLatency.setMaximumSize(tfLatency.getPreferredSize());
-		tfLatency.setMinimumSize(new Dimension(150, tfLatency.getPreferredSize().height));
-		tfLatency.setPreferredSize(new Dimension(150, tfLatency.getPreferredSize().height));
+        inputPanel.add(sourceNode);
+        inputPanel.add(new Label("---->"));
+        inputPanel.add(targetNode);
+        inputPanel.add(Box.createHorizontalGlue());
+        inputPanelWrapper.add(inputPanel);
 
-		textAreaPanel.add(tfLatency);
-		textAreaPanel.add(Box.createHorizontalGlue());
+        textAreaPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        textAreaPanel.add(new JLabel("Latency: "));
+        tfLatency = new JTextField();
+        tfLatency.setMaximumSize(tfLatency.getPreferredSize());
+        tfLatency.setMinimumSize(new Dimension(150, tfLatency.getPreferredSize().height));
+        tfLatency.setPreferredSize(new Dimension(150, tfLatency.getPreferredSize().height));
 
-		inputPanelWrapper.add(textAreaPanel);
-		inputPanelWrapper.add(Box.createVerticalGlue());
+        textAreaPanel.add(tfLatency);
+        textAreaPanel.add(Box.createHorizontalGlue());
 
-		inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        inputPanelWrapper.add(textAreaPanel);
+        inputPanelWrapper.add(Box.createVerticalGlue());
 
-		return inputPanelWrapper;
-	}
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-	private JPanel createButtonPanel() {
+        return inputPanelWrapper;
+    }
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+    private JPanel createButtonPanel() {
 
-		JButton okBtn = new JButton("Ok");
-		JButton cancelBtn = new JButton("Cancel");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 
-		cancelBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+        JButton okBtn = new JButton("Ok");
+        JButton cancelBtn = new JButton("Cancel");
 
-		okBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
 
-				double latency = 0;
-				boolean catchedError = false;
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-				if (tfLatency.getText() == null || tfLatency.getText().isEmpty()) {
-					catchedError = true;
-					prompt("Please type latency", "Error");
-				}else {
-					try {
-						latency = Double.valueOf(tfLatency.getText());											
-					} catch (NumberFormatException e1) {
-						catchedError = true;
-						prompt("Latency should be double type", "Error");
-					}
-				}
+                double latency = 0;
+                boolean catchedError = false;
 
-				if (!catchedError) {
-					if (sourceNode.getSelectedItem() == null || targetNode.getSelectedItem() == null) {
-						prompt("Please select node", "Error");
-					} else {
+                if (tfLatency.getText() == null || tfLatency.getText().isEmpty()) {
+                    catchedError = true;
+                    prompt("Please type latency", "Error");
+                } else {
+                    try {
+                        latency = Double.valueOf(tfLatency.getText());
+                    } catch (NumberFormatException e1) {
+                        catchedError = true;
+                        prompt("Latency should be double type", "Error");
+                    }
+                }
 
-						Node source = (Node) sourceNode.getSelectedItem();
-						Node target = (Node) targetNode.getSelectedItem();
+                if (!catchedError) {
+                    if (sourceNode.getSelectedItem() == null || targetNode.getSelectedItem() == null) {
+                        prompt("Please select node", "Error");
+                    } else {
 
-						Link edge = new Link(target, latency);
-						graph.addEdge(source, edge);
+                        Node source = (Node) sourceNode.getSelectedItem();
+                        Node target = (Node) targetNode.getSelectedItem();
 
-						setVisible(false);
-					}
-				}
+                        Link edge = new Link(target, latency);
+                        graph.addEdge(source, edge);
 
-			}
-		});
+                        setVisible(false);
+                    }
+                }
 
-		buttonPanel.add(Box.createHorizontalGlue());
-		buttonPanel.add(okBtn);
-		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		buttonPanel.add(cancelBtn);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            }
+        });
 
-		return buttonPanel;
-	}
-	
-	private void prompt(String msg, String type){
-		JOptionPane.showMessageDialog(AddLink.this, msg, type, JOptionPane.ERROR_MESSAGE);
-	}
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(okBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(cancelBtn);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        return buttonPanel;
+    }
+
+    private void prompt(String msg, String type) {
+        JOptionPane.showMessageDialog(AddLink.this, msg, type, JOptionPane.ERROR_MESSAGE);
+    }
 
 }

@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public interface MicroservicePlacementLogic {
     PlacementLogicOutput run(List<FogDevice> fogDevices, Map<String, Application> applicationInfo, Map<Integer, Map<String, Double>> resourceAvailability, List<PlacementRequest> pr);
+
     void updateResources(Map<Integer, Map<String, Double>> resourceAvailability);
+
     void postProcessing();
 }

@@ -6,158 +6,158 @@ import java.util.Map;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.UtilizationModel;
 
-public class Tuple extends Cloudlet{
+public class Tuple extends Cloudlet {
 
-	public static final int UP = 1;
-	public static final int DOWN = 2;
-	public static final int ACTUATOR = 3;
-	
-	private String appId;
-	
-	private String tupleType;
-	private String destModuleName;
-	private String srcModuleName;
-	private int actualTupleId;
-	private int direction;
-	private int actuatorId;
-	private int sourceDeviceId;
-	private int sourceModuleId;
-	/**
-	 * Map to keep track of which module instances has a tuple traversed.
-	 * 
-	 * Map from moduleName to vmId of a module instance
-	 */
-	private Map<String, Integer> moduleCopyMap;
+    public static final int UP = 1;
+    public static final int DOWN = 2;
+    public static final int ACTUATOR = 3;
 
-	/**
-	 * For device id based routing used
-	 */
-	protected int destinationDeviceId;
-	/* keep track of traversed microservices by tuples of type UP in microservices architecture UP -> tuple travelling towards service
-	 DOWN -> tuple travelling from service to client microservice.*/
-	protected Map<String, Integer> traversedMicroservices = new HashMap<>();
-	
-	public Tuple(String appId, int cloudletId, int direction, long cloudletLength, int pesNumber,
-			long cloudletFileSize, long cloudletOutputSize,
-			UtilizationModel utilizationModelCpu,
-			UtilizationModel utilizationModelRam,
-			UtilizationModel utilizationModelBw) {
-		super(cloudletId, cloudletLength, pesNumber, cloudletFileSize,
-				cloudletOutputSize, utilizationModelCpu, utilizationModelRam,
-				utilizationModelBw);
-		setAppId(appId);
-		setDirection(direction);
-		setSourceDeviceId(-1);
-		setModuleCopyMap(new HashMap<String, Integer>());
-		setDestinationDeviceId(-1);
-	}
+    private String appId;
 
-	public int getActualTupleId() {
-		return actualTupleId;
-	}
+    private String tupleType;
+    private String destModuleName;
+    private String srcModuleName;
+    private int actualTupleId;
+    private int direction;
+    private int actuatorId;
+    private int sourceDeviceId;
+    private int sourceModuleId;
+    /**
+     * Map to keep track of which module instances has a tuple traversed.
+     * <p>
+     * Map from moduleName to vmId of a module instance
+     */
+    private Map<String, Integer> moduleCopyMap;
 
-	public void setActualTupleId(int actualTupleId) {
-		this.actualTupleId = actualTupleId;
-	}
+    /**
+     * For device id based routing used
+     */
+    protected int destinationDeviceId;
+    /* keep track of traversed microservices by tuples of type UP in microservices architecture UP -> tuple travelling towards service
+     DOWN -> tuple travelling from service to client microservice.*/
+    protected Map<String, Integer> traversedMicroservices = new HashMap<>();
 
-	public String getAppId() {
-		return appId;
-	}
+    public Tuple(String appId, int cloudletId, int direction, long cloudletLength, int pesNumber,
+                 long cloudletFileSize, long cloudletOutputSize,
+                 UtilizationModel utilizationModelCpu,
+                 UtilizationModel utilizationModelRam,
+                 UtilizationModel utilizationModelBw) {
+        super(cloudletId, cloudletLength, pesNumber, cloudletFileSize,
+                cloudletOutputSize, utilizationModelCpu, utilizationModelRam,
+                utilizationModelBw);
+        setAppId(appId);
+        setDirection(direction);
+        setSourceDeviceId(-1);
+        setModuleCopyMap(new HashMap<String, Integer>());
+        setDestinationDeviceId(-1);
+    }
 
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
+    public int getActualTupleId() {
+        return actualTupleId;
+    }
 
-	public String getTupleType() {
-		return tupleType;
-	}
+    public void setActualTupleId(int actualTupleId) {
+        this.actualTupleId = actualTupleId;
+    }
 
-	public void setTupleType(String tupleType) {
-		this.tupleType = tupleType;
-	}
+    public String getAppId() {
+        return appId;
+    }
 
-	public String getDestModuleName() {
-		return destModuleName;
-	}
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
-	public void setDestModuleName(String destModuleName) {
-		this.destModuleName = destModuleName;
-	}
+    public String getTupleType() {
+        return tupleType;
+    }
 
-	public String getSrcModuleName() {
-		return srcModuleName;
-	}
+    public void setTupleType(String tupleType) {
+        this.tupleType = tupleType;
+    }
 
-	public void setSrcModuleName(String srcModuleName) {
-		this.srcModuleName = srcModuleName;
-	}
+    public String getDestModuleName() {
+        return destModuleName;
+    }
 
-	public int getDirection() {
-		return direction;
-	}
+    public void setDestModuleName(String destModuleName) {
+        this.destModuleName = destModuleName;
+    }
 
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
+    public String getSrcModuleName() {
+        return srcModuleName;
+    }
 
-	public int getActuatorId() {
-		return actuatorId;
-	}
+    public void setSrcModuleName(String srcModuleName) {
+        this.srcModuleName = srcModuleName;
+    }
 
-	public void setActuatorId(int actuatorId) {
-		this.actuatorId = actuatorId;
-	}
+    public int getDirection() {
+        return direction;
+    }
 
-	public int getSourceDeviceId() {
-		return sourceDeviceId;
-	}
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
 
-	public void setSourceDeviceId(int sourceDeviceId) {
-		this.sourceDeviceId = sourceDeviceId;
-	}
+    public int getActuatorId() {
+        return actuatorId;
+    }
 
-	public Map<String, Integer> getModuleCopyMap() {
-		return moduleCopyMap;
-	}
+    public void setActuatorId(int actuatorId) {
+        this.actuatorId = actuatorId;
+    }
 
-	public void setModuleCopyMap(Map<String, Integer> moduleCopyMap) {
-		this.moduleCopyMap = moduleCopyMap;
-	}
+    public int getSourceDeviceId() {
+        return sourceDeviceId;
+    }
 
-	public int getSourceModuleId() {
-		return sourceModuleId;
-	}
+    public void setSourceDeviceId(int sourceDeviceId) {
+        this.sourceDeviceId = sourceDeviceId;
+    }
 
-	public void setSourceModuleId(int sourceModuleId) {
-		this.sourceModuleId = sourceModuleId;
-	}
+    public Map<String, Integer> getModuleCopyMap() {
+        return moduleCopyMap;
+    }
 
-	public void setDestinationDeviceId(int deviceId) {
-		destinationDeviceId = deviceId;
-	}
+    public void setModuleCopyMap(Map<String, Integer> moduleCopyMap) {
+        this.moduleCopyMap = moduleCopyMap;
+    }
 
-	public int getDestinationDeviceId() {
-		return destinationDeviceId;
-	}
+    public int getSourceModuleId() {
+        return sourceModuleId;
+    }
 
-	public void addToTraversedMicroservices(Integer deviceID, String microserviceName) {
-		traversedMicroservices.put(microserviceName, deviceID);
-	}
+    public void setSourceModuleId(int sourceModuleId) {
+        this.sourceModuleId = sourceModuleId;
+    }
 
-	public int getDeviceForMicroservice(String microserviceName) {
-		if (!traversedMicroservices.containsKey(microserviceName))
-			return -1;
-		else {
-			return traversedMicroservices.get(microserviceName);
-		}
-	}
+    public void setDestinationDeviceId(int deviceId) {
+        destinationDeviceId = deviceId;
+    }
 
-	public Map<String, Integer> getTraversed() {
-		return traversedMicroservices;
-	}
+    public int getDestinationDeviceId() {
+        return destinationDeviceId;
+    }
 
-	public void setTraversedMicroservices(Map<String, Integer> traversed) {
-		traversedMicroservices = traversed;
-	}
+    public void addToTraversedMicroservices(Integer deviceID, String microserviceName) {
+        traversedMicroservices.put(microserviceName, deviceID);
+    }
+
+    public int getDeviceForMicroservice(String microserviceName) {
+        if (!traversedMicroservices.containsKey(microserviceName))
+            return -1;
+        else {
+            return traversedMicroservices.get(microserviceName);
+        }
+    }
+
+    public Map<String, Integer> getTraversed() {
+        return traversedMicroservices;
+    }
+
+    public void setTraversedMicroservices(Map<String, Integer> traversed) {
+        traversedMicroservices = traversed;
+    }
 
 }

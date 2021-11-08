@@ -10,7 +10,7 @@ package org.cloudbus.cloudsim.sdn;
 
 /**
  * Activities that can be performed by VM. (Transmission or Compute)
- * 
+ *
  * @author Jungmin Son
  * @author Rodrigo N. Calheiros
  * @since CloudSimSDN 1.0

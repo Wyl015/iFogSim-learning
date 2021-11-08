@@ -218,7 +218,7 @@ public class ClusteredMicroservicePlacementLogic implements MicroservicePlacemen
             mappedMicroservices.put(placementRequest.getPlacementRequestId(), new HashMap<>(placementRequest.getPlacedMicroservices()));
 
             //special modules  - predefined cloud placements
-            Application app =  applicationInfo.get(placementRequest.getApplicationId());
+            Application app = applicationInfo.get(placementRequest.getApplicationId());
             for (String microservice : app.getSpecialPlacementInfo().keySet()) {
                 for (String deviceName : app.getSpecialPlacementInfo().get(microservice)) {
                     FogDevice device = getDeviceByName(deviceName);
@@ -334,18 +334,19 @@ public class ClusteredMicroservicePlacementLogic implements MicroservicePlacemen
                         List<Integer> sortedClusterDevicesInactive = new ArrayList<>();
                         for (Integer id : clusterDeviceIds) {
                             //sort list from min to max
-                            if (currentModuleMap.get(id).size()>0 && sortedClusterDevicesActive.isEmpty())
+                            if (currentModuleMap.get(id).size() > 0 && sortedClusterDevicesActive.isEmpty())
                                 sortedClusterDevicesActive.add(id);
-                            else if(currentModuleMap.get(id).size()==0 && sortedClusterDevicesInactive.isEmpty())
+                            else if (currentModuleMap.get(id).size() == 0 && sortedClusterDevicesInactive.isEmpty())
                                 sortedClusterDevicesInactive.add(id);
-                            else if(currentModuleMap.get(id).size()>0){
+                            else if (currentModuleMap.get(id).size() > 0) {
                                 boolean isPlaced = false;
                                 for (int i = 0; i < sortedClusterDevicesActive.size(); i++) {
                                     double sorted = resourceAvailability.get(sortedClusterDevicesActive.get(i)).get("cpu") -
                                             getCurrentCpuLoad().get(sortedClusterDevicesActive.get(i));
                                     double current = resourceAvailability.get(id).get("cpu") -
                                             getCurrentCpuLoad().get(id);
-                                    if (sorted < current) {sortedClusterDevicesActive.add(i, id);
+                                    if (sorted < current) {
+                                        sortedClusterDevicesActive.add(i, id);
                                         isPlaced = true;
                                         break;
                                     } else {
@@ -354,15 +355,15 @@ public class ClusteredMicroservicePlacementLogic implements MicroservicePlacemen
                                 }
                                 if (!isPlaced)
                                     sortedClusterDevicesActive.add(id);
-                            }
-                            else{
+                            } else {
                                 boolean isPlaced = false;
                                 for (int i = 0; i < sortedClusterDevicesInactive.size(); i++) {
                                     double sorted = resourceAvailability.get(sortedClusterDevicesInactive.get(i)).get("cpu") -
                                             getCurrentCpuLoad().get(sortedClusterDevicesInactive.get(i));
                                     double current = resourceAvailability.get(id).get("cpu") -
                                             getCurrentCpuLoad().get(id);
-                                    if (sorted < current) {sortedClusterDevicesInactive.add(i, id);
+                                    if (sorted < current) {
+                                        sortedClusterDevicesInactive.add(i, id);
                                         isPlaced = true;
                                         break;
                                     } else {

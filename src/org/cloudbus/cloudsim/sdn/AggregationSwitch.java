@@ -10,15 +10,15 @@ package org.cloudbus.cloudsim.sdn;
 
 /**
  * Represent aggregation switch
- * 
+ *
  * @author Jungmin Son
  * @author Rodrigo N. Calheiros
  * @since CloudSimSDN 1.0
  */
 public class AggregationSwitch extends Switch {
 
-	public AggregationSwitch(String name,int bw, long iops, int upports, int downports, NetworkOperatingSystem nos) {
-		super(name, bw, iops, upports, downports, nos);
-	}
+    public AggregationSwitch(String name, int bw, long iops, int upports, int downports, NetworkOperatingSystem nos) {
+        super(name, bw, iops, upports, downports, nos);
+    }
 
 }

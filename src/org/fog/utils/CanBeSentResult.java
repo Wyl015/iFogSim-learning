@@ -2,45 +2,44 @@ package org.fog.utils;
 
 public class CanBeSentResult {
 
-	private double cpuLoad;
-	private double nwLoad;
-	
-	private boolean canBeSent;
+    private double cpuLoad;
+    private double nwLoad;
 
-	public CanBeSentResult(double cpuLoad, double nwLoad, boolean canBeSent){
-		this.cpuLoad = cpuLoad;
-		this.nwLoad = nwLoad;
-		this.canBeSent = canBeSent;
-	}
-	
-	public CanBeSentResult() {
-		// TODO Auto-generated constructor stub
-	}
+    private boolean canBeSent;
 
-	public double getCpuLoad() {
-		return cpuLoad;
-	}
+    public CanBeSentResult(double cpuLoad, double nwLoad, boolean canBeSent) {
+        this.cpuLoad = cpuLoad;
+        this.nwLoad = nwLoad;
+        this.canBeSent = canBeSent;
+    }
 
-	public void setCpuLoad(double cpuLoad) {
-		this.cpuLoad = cpuLoad;
-	}
+    public CanBeSentResult() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public double getNwLoad() {
-		return nwLoad;
-	}
+    public double getCpuLoad() {
+        return cpuLoad;
+    }
 
-	public void setNwLoad(double nwLoad) {
-		this.nwLoad = nwLoad;
-	}
+    public void setCpuLoad(double cpuLoad) {
+        this.cpuLoad = cpuLoad;
+    }
 
-	public boolean isCanBeSent() {
-		return canBeSent;
-	}
+    public double getNwLoad() {
+        return nwLoad;
+    }
 
-	public void setCanBeSent(boolean canBeSent) {
-		this.canBeSent = canBeSent;
-	}
-	
-	
-	
+    public void setNwLoad(double nwLoad) {
+        this.nwLoad = nwLoad;
+    }
+
+    public boolean isCanBeSent() {
+        return canBeSent;
+    }
+
+    public void setCanBeSent(boolean canBeSent) {
+        this.canBeSent = canBeSent;
+    }
+
+
 }

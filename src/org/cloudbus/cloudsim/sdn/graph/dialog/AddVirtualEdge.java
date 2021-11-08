@@ -32,208 +32,210 @@ import org.cloudbus.cloudsim.sdn.graph.core.Graph;
 import org.cloudbus.cloudsim.sdn.graph.core.Node;
 import org.cloudbus.cloudsim.sdn.graph.core.NodeCellRenderer;
 
-/** A dialog to add a new edge */
+/**
+ * A dialog to add a new edge
+ */
 public class AddVirtualEdge extends JDialog {
-	private static final long serialVersionUID = 4794808969864918000L;
-	
-	private final Graph graph;
-	private JComboBox sourceNode;
-	private JComboBox targetNode;
-	private JTextField tfName;
-	private JTextField tfBandwidth;
+    private static final long serialVersionUID = 4794808969864918000L;
+
+    private final Graph graph;
+    private JComboBox sourceNode;
+    private JComboBox targetNode;
+    private JTextField tfName;
+    private JTextField tfBandwidth;
 
 
-	public AddVirtualEdge(final Graph graph, final JFrame frame) {
+    public AddVirtualEdge(final Graph graph, final JFrame frame) {
 
-		this.graph = graph;
+        this.graph = graph;
 
-		setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
-		add(createInputPanel(), BorderLayout.CENTER);
-		add(createButtonPanel(), BorderLayout.PAGE_END);
-		// show dialog
-		setTitle("Add Virtual Topology edge");
-		setModal(true);
-		setPreferredSize(new Dimension(400, 250));
-		setResizable(false);
-		pack();
-		setLocationRelativeTo(frame); // must be called between pack and setVisible to work properly
-		setVisible(true);
-	}
+        add(createInputPanel(), BorderLayout.CENTER);
+        add(createButtonPanel(), BorderLayout.PAGE_END);
+        // show dialog
+        setTitle("Add Virtual Topology edge");
+        setModal(true);
+        setPreferredSize(new Dimension(400, 250));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(frame); // must be called between pack and setVisible to work properly
+        setVisible(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	private JPanel createInputPanel() {
+    @SuppressWarnings("unchecked")
+    private JPanel createInputPanel() {
 
-		Component rigid = Box.createRigidArea(new Dimension(10, 0));
+        Component rigid = Box.createRigidArea(new Dimension(10, 0));
 
-		JPanel inputPanelWrapper = new JPanel();
-		inputPanelWrapper.setLayout(new BoxLayout(inputPanelWrapper, BoxLayout.PAGE_AXIS));
+        JPanel inputPanelWrapper = new JPanel();
+        inputPanelWrapper.setLayout(new BoxLayout(inputPanelWrapper, BoxLayout.PAGE_AXIS));
 
-		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
 
-		JPanel textAreaPanel = new JPanel();
-		textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.LINE_AXIS));
-		
-		JPanel textAreaPanel2 = new JPanel();
-		textAreaPanel2.setLayout(new BoxLayout(textAreaPanel2, BoxLayout.LINE_AXIS));
+        JPanel textAreaPanel = new JPanel();
+        textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.LINE_AXIS));
 
-		ComboBoxModel sourceNodeModel = new DefaultComboBoxModel(graph.getAdjacencyList().keySet().toArray());
+        JPanel textAreaPanel2 = new JPanel();
+        textAreaPanel2.setLayout(new BoxLayout(textAreaPanel2, BoxLayout.LINE_AXIS));
 
-		sourceNodeModel.setSelectedItem(null);
+        ComboBoxModel sourceNodeModel = new DefaultComboBoxModel(graph.getAdjacencyList().keySet().toArray());
 
-		sourceNode = new JComboBox(sourceNodeModel);
-		targetNode = new JComboBox();
-		sourceNode.setMaximumSize(sourceNode.getPreferredSize());
-		sourceNode.setMinimumSize(new Dimension(150, sourceNode.getPreferredSize().height));
-		sourceNode.setPreferredSize(new Dimension(150, sourceNode.getPreferredSize().height));
-		targetNode.setMaximumSize(targetNode.getPreferredSize());
-		targetNode.setMinimumSize(new Dimension(150, targetNode.getPreferredSize().height));
-		targetNode.setPreferredSize(new Dimension(150, targetNode.getPreferredSize().height));
+        sourceNodeModel.setSelectedItem(null);
 
-		NodeCellRenderer renderer = new NodeCellRenderer();
+        sourceNode = new JComboBox(sourceNodeModel);
+        targetNode = new JComboBox();
+        sourceNode.setMaximumSize(sourceNode.getPreferredSize());
+        sourceNode.setMinimumSize(new Dimension(150, sourceNode.getPreferredSize().height));
+        sourceNode.setPreferredSize(new Dimension(150, sourceNode.getPreferredSize().height));
+        targetNode.setMaximumSize(targetNode.getPreferredSize());
+        targetNode.setMinimumSize(new Dimension(150, targetNode.getPreferredSize().height));
+        targetNode.setPreferredSize(new Dimension(150, targetNode.getPreferredSize().height));
 
-		sourceNode.setRenderer(renderer);
-		targetNode.setRenderer(renderer);
+        NodeCellRenderer renderer = new NodeCellRenderer();
 
-		sourceNode.addItemListener(new ItemListener() {
+        sourceNode.setRenderer(renderer);
+        targetNode.setRenderer(renderer);
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// only display nodes which do not have already an edge
+        sourceNode.addItemListener(new ItemListener() {
 
-				targetNode.removeAllItems();
-				Node selectedNode = (Node) sourceNode.getSelectedItem();
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // only display nodes which do not have already an edge
 
-				if (selectedNode != null) {
+                targetNode.removeAllItems();
+                Node selectedNode = (Node) sourceNode.getSelectedItem();
 
-					List<Node> nodesToDisplay = new ArrayList<Node>();
-					Set<Node> allNodes = graph.getAdjacencyList().keySet();
+                if (selectedNode != null) {
 
-					// get edged for selected node and throw out all target nodes where already an edge exists
-					List<Edge> edgesForSelectedNode = graph.getAdjacencyList().get(selectedNode);
-					Set<Node> nodesInEdges = new HashSet<Node>();
-					for (Edge edge : edgesForSelectedNode) {
-						nodesInEdges.add(edge.getNode());
-					}
+                    List<Node> nodesToDisplay = new ArrayList<Node>();
+                    Set<Node> allNodes = graph.getAdjacencyList().keySet();
 
-					for (Node node : allNodes) {
-						if (!node.equals(selectedNode) && !nodesInEdges.contains(node)) {
-							nodesToDisplay.add(node);
-						}
-					}
+                    // get edged for selected node and throw out all target nodes where already an edge exists
+                    List<Edge> edgesForSelectedNode = graph.getAdjacencyList().get(selectedNode);
+                    Set<Node> nodesInEdges = new HashSet<Node>();
+                    for (Edge edge : edgesForSelectedNode) {
+                        nodesInEdges.add(edge.getNode());
+                    }
 
-					ComboBoxModel targetNodeModel = new DefaultComboBoxModel(nodesToDisplay.toArray());
-					targetNode.setModel(targetNodeModel);
-				}
-			}
-		});
+                    for (Node node : allNodes) {
+                        if (!node.equals(selectedNode) && !nodesInEdges.contains(node)) {
+                            nodesToDisplay.add(node);
+                        }
+                    }
 
-		inputPanel.add(sourceNode);
-		// inputPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		inputPanel.add(new Label("    ¡ª"));
-		inputPanel.add(targetNode);
-		inputPanel.add(Box.createHorizontalGlue());
-		inputPanelWrapper.add(inputPanel);
+                    ComboBoxModel targetNodeModel = new DefaultComboBoxModel(nodesToDisplay.toArray());
+                    targetNode.setModel(targetNodeModel);
+                }
+            }
+        });
 
-		textAreaPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		textAreaPanel.add(new JLabel("Edge Name: "));
-		tfName = new JTextField();
-		tfName.setMaximumSize(tfName.getPreferredSize());
-		tfName.setMinimumSize(new Dimension(180, tfName.getPreferredSize().height));
-		tfName.setPreferredSize(new Dimension(180, tfName.getPreferredSize().height));
-		textAreaPanel.add(tfName);
-		textAreaPanel.add(Box.createHorizontalGlue());
-		inputPanelWrapper.add(textAreaPanel);
-		inputPanelWrapper.add(Box.createVerticalGlue());
-		
-		textAreaPanel2.add(Box.createRigidArea(new Dimension(10, 0)));
-		textAreaPanel2.add(new JLabel("Bandwidth:  "));
-		tfBandwidth = new JTextField();
-		tfBandwidth.setMaximumSize(tfBandwidth.getPreferredSize());
-		tfBandwidth.setMinimumSize(new Dimension(180, tfBandwidth.getPreferredSize().height));
-		tfBandwidth.setPreferredSize(new Dimension(180, tfBandwidth.getPreferredSize().height));
-		textAreaPanel2.add(tfBandwidth);
-		textAreaPanel2.add(Box.createHorizontalGlue());
-		inputPanelWrapper.add(textAreaPanel2);
-		inputPanelWrapper.add(Box.createVerticalGlue());
+        inputPanel.add(sourceNode);
+        // inputPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        inputPanel.add(new Label("    ï¿½ï¿½"));
+        inputPanel.add(targetNode);
+        inputPanel.add(Box.createHorizontalGlue());
+        inputPanelWrapper.add(inputPanel);
 
-		inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        textAreaPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        textAreaPanel.add(new JLabel("Edge Name: "));
+        tfName = new JTextField();
+        tfName.setMaximumSize(tfName.getPreferredSize());
+        tfName.setMinimumSize(new Dimension(180, tfName.getPreferredSize().height));
+        tfName.setPreferredSize(new Dimension(180, tfName.getPreferredSize().height));
+        textAreaPanel.add(tfName);
+        textAreaPanel.add(Box.createHorizontalGlue());
+        inputPanelWrapper.add(textAreaPanel);
+        inputPanelWrapper.add(Box.createVerticalGlue());
 
-		return inputPanelWrapper;
-	}
+        textAreaPanel2.add(Box.createRigidArea(new Dimension(10, 0)));
+        textAreaPanel2.add(new JLabel("Bandwidth:  "));
+        tfBandwidth = new JTextField();
+        tfBandwidth.setMaximumSize(tfBandwidth.getPreferredSize());
+        tfBandwidth.setMinimumSize(new Dimension(180, tfBandwidth.getPreferredSize().height));
+        tfBandwidth.setPreferredSize(new Dimension(180, tfBandwidth.getPreferredSize().height));
+        textAreaPanel2.add(tfBandwidth);
+        textAreaPanel2.add(Box.createHorizontalGlue());
+        inputPanelWrapper.add(textAreaPanel2);
+        inputPanelWrapper.add(Box.createVerticalGlue());
 
-	private JPanel createButtonPanel() {
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+        return inputPanelWrapper;
+    }
 
-		JButton okBtn = new JButton("Ok");
-		JButton cancelBtn = new JButton("Cancel");
+    private JPanel createButtonPanel() {
 
-		cancelBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 
-		okBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+        JButton okBtn = new JButton("Ok");
+        JButton cancelBtn = new JButton("Cancel");
 
-				String name = "default";
-				long bandwidth = 0;
-				boolean catchedError = false;
-				
-				if (tfName.getText() == null || tfName.getText().isEmpty()) {
-					catchedError = true;
-					prompt("Please type Edge Name", "Error");
-				}else {
-					name = (String)tfName.getText();								
-				}
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
 
-				if (tfBandwidth.getText() == null || tfBandwidth.getText().isEmpty()) {
-					catchedError = true;
-					prompt("Please type Bandwidth", "Error");
-				}else {
-					try {
-						bandwidth = Long.valueOf(tfBandwidth.getText());											
-					} catch (NumberFormatException e1) {
-						catchedError = true;
-						prompt("Bandwidth should be long type", "Error");
-					}
-				}
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-				if (!catchedError) {
-					if (sourceNode.getSelectedItem() == null || targetNode.getSelectedItem() == null) {
-						prompt("Please select node", "Error");
-					} else {
+                String name = "default";
+                long bandwidth = 0;
+                boolean catchedError = false;
 
-						Node source = (Node) sourceNode.getSelectedItem();
-						Node target = (Node) targetNode.getSelectedItem();
+                if (tfName.getText() == null || tfName.getText().isEmpty()) {
+                    catchedError = true;
+                    prompt("Please type Edge Name", "Error");
+                } else {
+                    name = (String) tfName.getText();
+                }
 
-						Edge edge = new Edge(target, name, bandwidth);
-						graph.addEdge(source, edge);
+                if (tfBandwidth.getText() == null || tfBandwidth.getText().isEmpty()) {
+                    catchedError = true;
+                    prompt("Please type Bandwidth", "Error");
+                } else {
+                    try {
+                        bandwidth = Long.valueOf(tfBandwidth.getText());
+                    } catch (NumberFormatException e1) {
+                        catchedError = true;
+                        prompt("Bandwidth should be long type", "Error");
+                    }
+                }
 
-						setVisible(false);
-					}
-				}
+                if (!catchedError) {
+                    if (sourceNode.getSelectedItem() == null || targetNode.getSelectedItem() == null) {
+                        prompt("Please select node", "Error");
+                    } else {
 
-			}
-		});
+                        Node source = (Node) sourceNode.getSelectedItem();
+                        Node target = (Node) targetNode.getSelectedItem();
 
-		buttonPanel.add(Box.createHorizontalGlue());
-		buttonPanel.add(okBtn);
-		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		buttonPanel.add(cancelBtn);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                        Edge edge = new Edge(target, name, bandwidth);
+                        graph.addEdge(source, edge);
 
-		return buttonPanel;
-	}
-	
-	private void prompt(String msg, String type){
-		JOptionPane.showMessageDialog(AddVirtualEdge.this, msg, type, JOptionPane.ERROR_MESSAGE);
-	}
+                        setVisible(false);
+                    }
+                }
+
+            }
+        });
+
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(okBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(cancelBtn);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        return buttonPanel;
+    }
+
+    private void prompt(String msg, String type) {
+        JOptionPane.showMessageDialog(AddVirtualEdge.this, msg, type, JOptionPane.ERROR_MESSAGE);
+    }
 
 }

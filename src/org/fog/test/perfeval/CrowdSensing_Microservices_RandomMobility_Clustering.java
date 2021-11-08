@@ -300,10 +300,10 @@ public class CrowdSensing_Microservices_RandomMobility_Clustering {
         /*
          * Adding modules (vertices) to the application model (directed graph)
          */
-        application.addAppModule("sensorModule", 10,150,100); // this transmits sensor data
-        application.addAppModule("webFE", 512, 250,200);
-        application.addAppModule("processingMservice", 512, 400,200);
-        application.addAppModule("database", 512,150,2048);
+        application.addAppModule("sensorModule", 10, 150, 100); // this transmits sensor data
+        application.addAppModule("webFE", 512, 250, 200);
+        application.addAppModule("processingMservice", 512, 400, 200);
+        application.addAppModule("database", 512, 150, 2048);
 
         /*
          * Connecting the application modules (vertices) in the application model (directed graph) with edges
@@ -320,7 +320,7 @@ public class CrowdSensing_Microservices_RandomMobility_Clustering {
         application.addTupleMapping("webFE", "M-SENSOR-OUTPUT", "RAW_DATA", new FractionalSelectivity(1.0));
         application.addTupleMapping("processingMservice", "RAW_DATA", "PROCESSED_DATA", new FractionalSelectivity(1.0));
 
-      application.setSpecialPlacementInfo("database", "cloud");
+        application.setSpecialPlacementInfo("database", "cloud");
 
         return application;
     }

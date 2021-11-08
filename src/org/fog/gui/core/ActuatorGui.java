@@ -2,39 +2,39 @@ package org.fog.gui.core;
 
 import java.io.Serializable;
 
-public class ActuatorGui extends Node implements Serializable{
+public class ActuatorGui extends Node implements Serializable {
 
-	private static final long serialVersionUID = 4087896123649020073L;
+    private static final long serialVersionUID = 4087896123649020073L;
 
-	private String name;
-	private String actuatorType;
-	
-	public ActuatorGui(String name, String actuatorType){
-		super(name, "ACTUATOR");
-		setName(name);
-		setActuatorType(actuatorType);
-	}
+    private String name;
+    private String actuatorType;
 
-	public String getName() {
-		return name;
-	}
+    public ActuatorGui(String name, String actuatorType) {
+        super(name, "ACTUATOR");
+        setName(name);
+        setActuatorType(actuatorType);
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String toString() {
-		return "Actuator []";
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getActuatorType() {
-		return actuatorType;
-	}
+    @Override
+    public String toString() {
+        return "Actuator []";
+    }
 
-	public void setActuatorType(String actuatorType) {
-		this.actuatorType = actuatorType;
-	}
+    public String getActuatorType() {
+        return actuatorType;
+    }
 
-	
+    public void setActuatorType(String actuatorType) {
+        this.actuatorType = actuatorType;
+    }
+
+
 }

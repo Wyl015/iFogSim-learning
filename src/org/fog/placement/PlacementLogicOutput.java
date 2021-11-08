@@ -22,9 +22,9 @@ public class PlacementLogicOutput {
     Map<Integer, List<Pair<String, Integer>>> serviceDiscoveryInfo = new HashMap<>();
 
     //Integer indicates next device to send the placement request (-1 for finished, or device id for others )
-    Map<PlacementRequest,Integer> prStatus = new HashMap<>();
+    Map<PlacementRequest, Integer> prStatus = new HashMap<>();
 
-    public PlacementLogicOutput(Map<Integer, Map<Application, List<ModuleLaunchConfig>>> perDevice, Map<Integer, List<Pair<String, Integer>>> serviceDiscoveryInfo, Map<PlacementRequest,Integer> prStatus) {
+    public PlacementLogicOutput(Map<Integer, Map<Application, List<ModuleLaunchConfig>>> perDevice, Map<Integer, List<Pair<String, Integer>>> serviceDiscoveryInfo, Map<PlacementRequest, Integer> prStatus) {
         this.perDevice = perDevice;
         this.serviceDiscoveryInfo = serviceDiscoveryInfo;
         this.prStatus = prStatus;
@@ -38,7 +38,7 @@ public class PlacementLogicOutput {
         return perDevice;
     }
 
-    public Map<PlacementRequest,Integer> getPrStatus() {
+    public Map<PlacementRequest, Integer> getPrStatus() {
         return prStatus;
     }
 }

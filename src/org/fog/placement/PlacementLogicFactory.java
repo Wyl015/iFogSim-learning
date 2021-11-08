@@ -9,7 +9,7 @@ public class PlacementLogicFactory {
 
     public static final int EDGEWART_MICROSERCVICES_PLACEMENT = 1;
     public static final int CLUSTERED_MICROSERVICES_PLACEMENT = 2;
-    public static final int DISTRIBUTED_MICROSERVICES_PLACEMENT =3;
+    public static final int DISTRIBUTED_MICROSERVICES_PLACEMENT = 3;
 
     public MicroservicePlacementLogic getPlacementLogic(int logic, int fonId) {
         switch (logic) {

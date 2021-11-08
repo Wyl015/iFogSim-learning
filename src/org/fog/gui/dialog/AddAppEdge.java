@@ -34,211 +34,211 @@ import org.fog.gui.core.Node;
 import org.fog.gui.core.NodeCellRenderer;
 import org.fog.gui.core.SpringUtilities;
 
-/** A dialog to add a new edge */
+/**
+ * A dialog to add a new edge
+ */
 public class AddAppEdge extends JDialog {
-	private static final long serialVersionUID = 4794808969864918000L;
-	
-	private final Graph graph;
-	private JComboBox sourceNode;
-	private JComboBox targetNode;
-	private JTextField tupleType;
-	private JTextField tupleCpuLen;
-	private JTextField tupleNwLen;
+    private static final long serialVersionUID = 4794808969864918000L;
+
+    private final Graph graph;
+    private JComboBox sourceNode;
+    private JComboBox targetNode;
+    private JTextField tupleType;
+    private JTextField tupleCpuLen;
+    private JTextField tupleNwLen;
 
 
-	public AddAppEdge(final Graph graph, final JFrame frame) {
+    public AddAppEdge(final Graph graph, final JFrame frame) {
 
-		this.graph = graph;
+        this.graph = graph;
 
-		setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
-		add(createInputPanel(), BorderLayout.CENTER);
-		add(createButtonPanel(), BorderLayout.PAGE_END);
-		// show dialog
-		setTitle("Add Application edge");
-		setModal(true);
-		setPreferredSize(new Dimension(400, 250));
-		setResizable(false);
-		pack();
-		setLocationRelativeTo(frame); // must be called between pack and setVisible to work properly
-		setVisible(true);
-	}
+        add(createInputPanel(), BorderLayout.CENTER);
+        add(createButtonPanel(), BorderLayout.PAGE_END);
+        // show dialog
+        setTitle("Add Application edge");
+        setModal(true);
+        setPreferredSize(new Dimension(400, 250));
+        setResizable(false);
+        pack();
+        setLocationRelativeTo(frame); // must be called between pack and setVisible to work properly
+        setVisible(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	private JPanel createInputPanel() {
+    @SuppressWarnings("unchecked")
+    private JPanel createInputPanel() {
 
-		Component rigid = Box.createRigidArea(new Dimension(10, 0));
+        Component rigid = Box.createRigidArea(new Dimension(10, 0));
 
-		JPanel inputPanelWrapper = new JPanel();
-		inputPanelWrapper.setLayout(new BoxLayout(inputPanelWrapper, BoxLayout.PAGE_AXIS));
+        JPanel inputPanelWrapper = new JPanel();
+        inputPanelWrapper.setLayout(new BoxLayout(inputPanelWrapper, BoxLayout.PAGE_AXIS));
 
-		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
 
-		JPanel textAreaPanel = new JPanel();
-		textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.LINE_AXIS));
-		
-		JPanel textAreaPanel2 = new JPanel();
-		textAreaPanel2.setLayout(new BoxLayout(textAreaPanel2, BoxLayout.LINE_AXIS));
+        JPanel textAreaPanel = new JPanel();
+        textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.LINE_AXIS));
 
-		ComboBoxModel sourceNodeModel = new DefaultComboBoxModel(graph.getAdjacencyList().keySet().toArray());
+        JPanel textAreaPanel2 = new JPanel();
+        textAreaPanel2.setLayout(new BoxLayout(textAreaPanel2, BoxLayout.LINE_AXIS));
 
-		sourceNodeModel.setSelectedItem(null);
+        ComboBoxModel sourceNodeModel = new DefaultComboBoxModel(graph.getAdjacencyList().keySet().toArray());
 
-		sourceNode = new JComboBox(sourceNodeModel);
-		targetNode = new JComboBox();
-		sourceNode.setMaximumSize(sourceNode.getPreferredSize());
-		sourceNode.setMinimumSize(new Dimension(150, sourceNode.getPreferredSize().height));
-		sourceNode.setPreferredSize(new Dimension(150, sourceNode.getPreferredSize().height));
-		targetNode.setMaximumSize(targetNode.getPreferredSize());
-		targetNode.setMinimumSize(new Dimension(150, targetNode.getPreferredSize().height));
-		targetNode.setPreferredSize(new Dimension(150, targetNode.getPreferredSize().height));
+        sourceNodeModel.setSelectedItem(null);
 
-		NodeCellRenderer renderer = new NodeCellRenderer();
+        sourceNode = new JComboBox(sourceNodeModel);
+        targetNode = new JComboBox();
+        sourceNode.setMaximumSize(sourceNode.getPreferredSize());
+        sourceNode.setMinimumSize(new Dimension(150, sourceNode.getPreferredSize().height));
+        sourceNode.setPreferredSize(new Dimension(150, sourceNode.getPreferredSize().height));
+        targetNode.setMaximumSize(targetNode.getPreferredSize());
+        targetNode.setMinimumSize(new Dimension(150, targetNode.getPreferredSize().height));
+        targetNode.setPreferredSize(new Dimension(150, targetNode.getPreferredSize().height));
 
-		sourceNode.setRenderer(renderer);
-		targetNode.setRenderer(renderer);
+        NodeCellRenderer renderer = new NodeCellRenderer();
 
-		sourceNode.addItemListener(new ItemListener() {
+        sourceNode.setRenderer(renderer);
+        targetNode.setRenderer(renderer);
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// only display nodes which do not have already an edge
+        sourceNode.addItemListener(new ItemListener() {
 
-				targetNode.removeAllItems();
-				Node selectedNode = (Node) sourceNode.getSelectedItem();
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // only display nodes which do not have already an edge
 
-				if (selectedNode != null) {
+                targetNode.removeAllItems();
+                Node selectedNode = (Node) sourceNode.getSelectedItem();
 
-					List<Node> nodesToDisplay = new ArrayList<Node>();
-					Set<Node> allNodes = graph.getAdjacencyList().keySet();
+                if (selectedNode != null) {
 
-					// get edged for selected node and throw out all target nodes where already an edge exists
-					List<Edge> edgesForSelectedNode = graph.getAdjacencyList().get(selectedNode);
-					Set<Node> nodesInEdges = new HashSet<Node>();
-					for (Edge edge : edgesForSelectedNode) {
-						nodesInEdges.add(edge.getNode());
-					}
+                    List<Node> nodesToDisplay = new ArrayList<Node>();
+                    Set<Node> allNodes = graph.getAdjacencyList().keySet();
 
-					for (Node node : allNodes) {
-						if (!node.equals(selectedNode) && !nodesInEdges.contains(node)) {
-							nodesToDisplay.add(node);
-						}
-					}
+                    // get edged for selected node and throw out all target nodes where already an edge exists
+                    List<Edge> edgesForSelectedNode = graph.getAdjacencyList().get(selectedNode);
+                    Set<Node> nodesInEdges = new HashSet<Node>();
+                    for (Edge edge : edgesForSelectedNode) {
+                        nodesInEdges.add(edge.getNode());
+                    }
 
-					ComboBoxModel targetNodeModel = new DefaultComboBoxModel(nodesToDisplay.toArray());
-					targetNode.setModel(targetNodeModel);
-				}
-			}
-		});
+                    for (Node node : allNodes) {
+                        if (!node.equals(selectedNode) && !nodesInEdges.contains(node)) {
+                            nodesToDisplay.add(node);
+                        }
+                    }
 
-		inputPanel.add(sourceNode);
-		inputPanel.add(new Label("--->"));
-		inputPanel.add(targetNode);
-		inputPanel.add(Box.createHorizontalGlue());
-		inputPanelWrapper.add(inputPanel);
+                    ComboBoxModel targetNodeModel = new DefaultComboBoxModel(nodesToDisplay.toArray());
+                    targetNode.setModel(targetNodeModel);
+                }
+            }
+        });
 
-		
-		
-		JPanel springPanel = new JPanel(new SpringLayout());
+        inputPanel.add(sourceNode);
+        inputPanel.add(new Label("--->"));
+        inputPanel.add(targetNode);
+        inputPanel.add(Box.createHorizontalGlue());
+        inputPanelWrapper.add(inputPanel);
+
+
+        JPanel springPanel = new JPanel(new SpringLayout());
         //springPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		
-        
+
+
         JLabel tupleTypeLabel = new JLabel("Tuple Type : ");
-		springPanel.add(tupleTypeLabel);
-		tupleType = new JTextField();
-		tupleTypeLabel.setLabelFor(tupleType);
-		springPanel.add(tupleType);
-		
-		JLabel tupleCpuLenLabel = new JLabel("Tuple CPU Len : ");
-		springPanel.add(tupleCpuLenLabel);
-		tupleCpuLen = new JTextField();
-		tupleCpuLenLabel.setLabelFor(tupleCpuLen);
-		springPanel.add(tupleCpuLen);
-		
-		JLabel tupleNwLenLabel = new JLabel("Tuple NW Len : ");
-		springPanel.add(tupleNwLenLabel);
-		tupleNwLen = new JTextField();
-		tupleNwLenLabel.setLabelFor(tupleNwLen);
-		springPanel.add(tupleNwLen);
-		
-		SpringUtilities.makeCompactGrid(springPanel,
+        springPanel.add(tupleTypeLabel);
+        tupleType = new JTextField();
+        tupleTypeLabel.setLabelFor(tupleType);
+        springPanel.add(tupleType);
+
+        JLabel tupleCpuLenLabel = new JLabel("Tuple CPU Len : ");
+        springPanel.add(tupleCpuLenLabel);
+        tupleCpuLen = new JTextField();
+        tupleCpuLenLabel.setLabelFor(tupleCpuLen);
+        springPanel.add(tupleCpuLen);
+
+        JLabel tupleNwLenLabel = new JLabel("Tuple NW Len : ");
+        springPanel.add(tupleNwLenLabel);
+        tupleNwLen = new JTextField();
+        tupleNwLenLabel.setLabelFor(tupleNwLen);
+        springPanel.add(tupleNwLen);
+
+        SpringUtilities.makeCompactGrid(springPanel,
                 3, 2,        //rows, cols
                 6, 6,        //initX, initY
                 6, 6);       //xPad, yPad
-		
-		inputPanelWrapper.add(springPanel);
-		
-		return inputPanelWrapper;
-	}
 
-	private JPanel createButtonPanel() {
+        inputPanelWrapper.add(springPanel);
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+        return inputPanelWrapper;
+    }
 
-		JButton okBtn = new JButton("Ok");
-		JButton cancelBtn = new JButton("Cancel");
+    private JPanel createButtonPanel() {
 
-		cancelBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 
-		okBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+        JButton okBtn = new JButton("Ok");
+        JButton cancelBtn = new JButton("Cancel");
 
-				String name = "default";
-				long bandwidth = 0;
-				boolean catchedError = false;
-				
-				if (tupleType.getText() == null || tupleType.getText().isEmpty()) {
-					catchedError = true;
-					prompt("Please enter Tuple Type", "Error");
-				} else if (tupleCpuLen.getText() == null || tupleCpuLen.getText().isEmpty()) {
-					catchedError = true;
-					prompt("Please enter Tuple CPU Length", "Error");
-				} else if (tupleNwLen.getText() == null || tupleNwLen.getText().isEmpty()) {
-					catchedError = true;
-					prompt("Please enter Tuple NW Length", "Error");
-				}
-				else {
-					name = ((Node)sourceNode.getSelectedItem()).getName()+"-"+((Node)sourceNode.getSelectedItem()).getName();								
-				}
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
 
-				
-				if (!catchedError) {
-					if (sourceNode.getSelectedItem() == null || targetNode.getSelectedItem() == null) {
-						prompt("Please select node", "Error");
-					} else {
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-						Node source = (Node) sourceNode.getSelectedItem();
-						Node target = (Node) targetNode.getSelectedItem();
+                String name = "default";
+                long bandwidth = 0;
+                boolean catchedError = false;
 
-						Edge edge = new Edge(target, name, bandwidth);
-						graph.addEdge(source, edge);
+                if (tupleType.getText() == null || tupleType.getText().isEmpty()) {
+                    catchedError = true;
+                    prompt("Please enter Tuple Type", "Error");
+                } else if (tupleCpuLen.getText() == null || tupleCpuLen.getText().isEmpty()) {
+                    catchedError = true;
+                    prompt("Please enter Tuple CPU Length", "Error");
+                } else if (tupleNwLen.getText() == null || tupleNwLen.getText().isEmpty()) {
+                    catchedError = true;
+                    prompt("Please enter Tuple NW Length", "Error");
+                } else {
+                    name = ((Node) sourceNode.getSelectedItem()).getName() + "-" + ((Node) sourceNode.getSelectedItem()).getName();
+                }
 
-						setVisible(false);
-					}
-				}
 
-			}
-		});
+                if (!catchedError) {
+                    if (sourceNode.getSelectedItem() == null || targetNode.getSelectedItem() == null) {
+                        prompt("Please select node", "Error");
+                    } else {
 
-		buttonPanel.add(Box.createHorizontalGlue());
-		buttonPanel.add(okBtn);
-		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		buttonPanel.add(cancelBtn);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                        Node source = (Node) sourceNode.getSelectedItem();
+                        Node target = (Node) targetNode.getSelectedItem();
 
-		return buttonPanel;
-	}
-	
-	private void prompt(String msg, String type){
-		JOptionPane.showMessageDialog(AddAppEdge.this, msg, type, JOptionPane.ERROR_MESSAGE);
-	}
+                        Edge edge = new Edge(target, name, bandwidth);
+                        graph.addEdge(source, edge);
+
+                        setVisible(false);
+                    }
+                }
+
+            }
+        });
+
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(okBtn);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonPanel.add(cancelBtn);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        return buttonPanel;
+    }
+
+    private void prompt(String msg, String type) {
+        JOptionPane.showMessageDialog(AddAppEdge.this, msg, type, JOptionPane.ERROR_MESSAGE);
+    }
 
 }

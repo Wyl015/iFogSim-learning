@@ -139,10 +139,10 @@ public class ControllerComponent {
 
 class ServiceDiscovery {
     protected Map<String, List<Integer>> serviceDiscoveryInfo = new HashMap<>();
-    int deviceId ;
+    int deviceId;
 
     public ServiceDiscovery(Integer deviceId) {
-        this.deviceId =deviceId;
+        this.deviceId = deviceId;
     }
 
     public void addServiceDIscoveryInfo(String microservice, Integer device) {

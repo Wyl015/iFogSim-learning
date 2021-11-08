@@ -21,45 +21,47 @@ package org.cloudbus.cloudsim.sdn;
  * @since CloudSimSDN 1.0
  */
 public class Transmission implements Activity {
-	Package pkg;
-	long amountToBeProcessed;
-	
-	public Transmission(int origin, int destination, long size, int flowId, Request payload) {
-		this.pkg = new Package(origin, destination, size, flowId, payload);
-		this.amountToBeProcessed=pkg.getSize();
-	}
-	
-	public Transmission(Package pkg){
-		this.pkg = pkg;
-		this.amountToBeProcessed=pkg.getSize();
-	}
-	
-	public long getSize(){
-		return amountToBeProcessed;
-	}
-	
-	public Package getPackage(){
-		return pkg;
-	}
-	
-	/**
-	 * Sums some amount of data to the already transmitted data
-	 * @param completed amount of data completed since last update
-	 */
-	public void addCompletedLength(long completed){
-		amountToBeProcessed-=completed;
-		if (amountToBeProcessed<=0) amountToBeProcessed = 0;
-	}
-	
-	/**
-	 * Say if the Package transmission finished or not.
-	 * @return true if transmission finished; false otherwise
-	 */
-	public boolean isCompleted(){
-		return amountToBeProcessed==0;
-	}
-	
-	public String toString() {
-		return "Transmission:"+this.pkg.toString();
-	}
+    Package pkg;
+    long amountToBeProcessed;
+
+    public Transmission(int origin, int destination, long size, int flowId, Request payload) {
+        this.pkg = new Package(origin, destination, size, flowId, payload);
+        this.amountToBeProcessed = pkg.getSize();
+    }
+
+    public Transmission(Package pkg) {
+        this.pkg = pkg;
+        this.amountToBeProcessed = pkg.getSize();
+    }
+
+    public long getSize() {
+        return amountToBeProcessed;
+    }
+
+    public Package getPackage() {
+        return pkg;
+    }
+
+    /**
+     * Sums some amount of data to the already transmitted data
+     *
+     * @param completed amount of data completed since last update
+     */
+    public void addCompletedLength(long completed) {
+        amountToBeProcessed -= completed;
+        if (amountToBeProcessed <= 0) amountToBeProcessed = 0;
+    }
+
+    /**
+     * Say if the Package transmission finished or not.
+     *
+     * @return true if transmission finished; false otherwise
+     */
+    public boolean isCompleted() {
+        return amountToBeProcessed == 0;
+    }
+
+    public String toString() {
+        return "Transmission:" + this.pkg.toString();
+    }
 }

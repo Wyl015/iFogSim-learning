@@ -119,7 +119,7 @@ public class CardiovascularHealthMonitoringApplication {
 
 
             int placementAlgo = PlacementLogicFactory.CLUSTERED_MICROSERVICES_PLACEMENT;
-            MicroservicesMobilityClusteringController microservicesController = new MicroservicesMobilityClusteringController("controller", fogDevices, sensors, appList, clusterLevelIdentifier, clusterLatency, placementAlgo,locator);
+            MicroservicesMobilityClusteringController microservicesController = new MicroservicesMobilityClusteringController("controller", fogDevices, sensors, appList, clusterLevelIdentifier, clusterLatency, placementAlgo, locator);
 
             // generate placement requests
             List<PlacementRequest> placementRequests = new ArrayList<>();
